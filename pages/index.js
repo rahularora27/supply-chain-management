@@ -10,7 +10,7 @@ import {
   GetShipment,
   StartShipment,
 } from "../Components/index";
-import { TrackingContext } from "../Conetxt/TrackingContext";
+import { TrackingContext } from "../Context/TrackingContext";
 
 const index = () => {
   const {

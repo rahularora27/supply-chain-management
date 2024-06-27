@@ -1,16 +1,19 @@
 import "../styles/globals.css";
 
-//INTERNAL IMPORT
+// INTERNAL IMPORT
 import { Footer, Banner, NavBar } from "../Components";
-import { TrackingProvider } from "../Conetxt/TrackingContext";
+import { TrackingProvider } from "../Context/TrackingContext";
+
 export default function App({ Component, pageProps }) {
   return (
-    <>
-      <TrackingProvider>
+    <TrackingProvider>
+      <div className="flex flex-col min-h-screen">
         <NavBar />
-        <Component {...pageProps} />
+        <main className="flex-grow">
+          <Component {...pageProps} />
+        </main>
         <Footer />
-      </TrackingProvider>
-    </>
+      </div>
+    </TrackingProvider>
   );
 }

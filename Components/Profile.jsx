@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
-
-//INTERNAL IMPORT
-import images from "../Images/index";
 
 export default ({
   openProfile,
@@ -11,14 +7,18 @@ export default ({
   getShipmentsCount,
 }) => {
   const [count, setCount] = useState();
+
   useEffect(() => {
     const getShipmentsData = getShipmentsCount();
 
-    return async () => {
+    const fetchData = async () => {
       const allData = await getShipmentsData;
       setCount(allData);
     };
-  }, []);
+
+    fetchData();
+  }, [getShipmentsCount]);
+
   return openProfile ? (
     <div className="fixed inset-0 z-10 overflow-y-auto">
       <div
@@ -47,24 +47,17 @@ export default ({
             </button>
           </div>
           <div className="max-w-sm mx-auto py-3 space-y-3 text-center">
-            <div class="flex flex-col items-center pb-10">
-              <Image
-                class="w-24 h-24 mb-3 rounded-full shadow-lg"
-                src={images.avatar}
-                alt="Bonnie image"
-              />
-              <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+            <div className="flex flex-col items-center pb-10">
+              <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
                 Welcome Trader
               </h5>
-
-              <span class="text-sm text-gray-500 dark:text-gray-400 ">
+              <span className="text-sm text-gray-500 dark:text-gray-400">
                 {currentUser}
               </span>
-
-              <div class="flex mt-4 space-x-3 md:mt-6">
+              <div className="flex mt-4 space-x-3 md:mt-6">
                 <a
                   href="#"
-                  class="inline-flex items-center px-4 py-2 text-sm  font-medium text-center text-black rounded-lg border-2 "
+                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-black rounded-lg border-2"
                 >
                   Total Shipments: {count}
                 </a>

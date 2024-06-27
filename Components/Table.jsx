@@ -17,7 +17,7 @@ export default ({ setCreateShipmentModel, allShipmentsdata }) => {
       <div className="items-start justify-between md:flex">
         <div className="max-w-lg">
           <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-            Create Tracking
+            Shipment Tracking
           </h3>
         </div>
         <div className="mt-3 md:mt-0">
