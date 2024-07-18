@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 
-//INTERNAL IMPORT
 import {
   Table,
   Form,
@@ -23,13 +22,10 @@ const index = () => {
     getShipmentsCount,
   } = useContext(TrackingContext);
 
-  //STATE VARIABLE
   const [createShipmentModel, setCreateShipmentModel] = useState(false);
-  const [openProfile, setOpenProfile] = useState(false);
   const [startModal, setStartModal] = useState(false);
   const [completeModal, setCompleteModal] = useState(false);
   const [getModel, setGetModel] = useState(false);
-  //DATA STATE VARIABLE
   const [allShipmentsdata, setallShipmentsdata] = useState();
 
   useEffect(() => {
@@ -43,13 +39,17 @@ const index = () => {
 
   return (
     <>
+    <div className="flex justify-evenly mb-10">
       <Services
-        setOpenProfile={setOpenProfile}
         setCompleteModal={setCompleteModal}
         setGetModel={setGetModel}
         setStartModal={setStartModal}
       />
-
+      <Profile
+        currentUser={currentUser}
+        getShipmentsCount={getShipmentsCount}
+      />
+    </div>
       <Table
         setCreateShipmentModel={setCreateShipmentModel}
         allShipmentsdata={allShipmentsdata}
@@ -58,12 +58,6 @@ const index = () => {
         createShipmentModel={createShipmentModel}
         createShipment={createShipment}
         setCreateShipmentModel={setCreateShipmentModel}
-      />
-      <Profile
-        openProfile={openProfile}
-        setOpenProfile={setOpenProfile}
-        currentUser={currentUser}
-        getShipmentsCount={getShipmentsCount}
       />
       <CompleteShipment
         completeModal={completeModal}

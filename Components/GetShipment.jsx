@@ -1,25 +1,26 @@
 import { useState } from "react";
 
-export default ({ getModel, setGetModel, getShipment }) => {
+export default function GetShipmentModal({ getModel, setGetModel, getShipment }) {
   const [index, setIndex] = useState(0);
-  const [singleShipmentData, setSingleShipmentData] = useState();
+  const [singleShipmentData, setSingleShipmentData] = useState(null);
 
-  const getshipmentData = async () => {
-    const getData = await getShipment(index);
-    setSingleShipmentData(getData);
-    console.log(getData);
+  const getShipmentData = async () => {
+    try {
+      const getData = await getShipment(index);
+      setSingleShipmentData(getData);
+      console.log(getData);
+    } catch (error) {
+      console.log("Error fetching shipment data", error);
+    }
   };
-  console.log(singleShipmentData);
 
-  const converTime = (time) => {
+  const convertTime = (time) => {
     const newTime = new Date(time);
-    const dataTime = new Intl.DateTimeFormat("en-US", {
+    return new Intl.DateTimeFormat("en-US", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
     }).format(newTime);
-
-    return dataTime;
   };
 
   return getModel ? (
@@ -51,43 +52,36 @@ export default ({ getModel, setGetModel, getShipment }) => {
           </div>
           <div className="max-w-sm mx-auto py-3 space-y-3 text-center">
             <h4 className="text-lg font-medium text-gray-800">
-              Product Tracting Details
+              Product Tracking Details
             </h4>
 
             <form onSubmit={(e) => e.preventDefault()}>
               <div className="relative mt-3">
                 <input
                   type="number"
-                  placeholder="Id"
+                  placeholder="ID"
                   className="w-full pl-5 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   onChange={(e) => setIndex(e.target.value)}
                 />
               </div>
 
               <button
-                onClick={() => getshipmentData()}
+                onClick={getShipmentData}
                 className="block w-full mt-3 py-3 px-4 font-medium text-sm text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg ring-offset-2 ring-indigo-600 focus:ring-2"
               >
-                Get details
+                Get Details
               </button>
             </form>
 
-            {singleShipmentData == undefined ? (
-              ""
-            ) : (
-              <div className="text-left">
+            {singleShipmentData && (
+              <div className="text-left mt-4">
                 <p>Sender: {singleShipmentData.sender.slice(0, 25)}...</p>
-                <p>Recevier: {singleShipmentData.receiver.slice(0, 25)}...</p>
-                <p>PickupTime: {converTime(singleShipmentData.pickupTime)}</p>
-                <p>
-                  DeliveryTime: {converTime(singleShipmentData.deliveryTime)}
-                </p>
-                <p>Distance: {singleShipmentData.distance}</p>
+                <p>Receiver: {singleShipmentData.receiver.slice(0, 25)}...</p>
+                <p>Pickup Time: {convertTime(singleShipmentData.pickupTime)}</p>
                 <p>Price: {singleShipmentData.price}</p>
                 <p>Status: {singleShipmentData.status}</p>
                 <p>
-                  Paid:{" "}
-                  {singleShipmentData.isPaid ? "Complete" : "Not Complete"}
+                  Paid: {singleShipmentData.isPaid ? "Complete" : "Not Complete"}
                 </p>
               </div>
             )}
@@ -95,7 +89,5 @@ export default ({ getModel, setGetModel, getShipment }) => {
         </div>
       </div>
     </div>
-  ) : (
-    ""
-  );
-};
+  ) : null;
+}

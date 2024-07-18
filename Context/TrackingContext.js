@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 
 //INTERNAL IMPORT
 import tracking from "../Context/Tracking.json";
-const ContractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+const ContractAddress = "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9";
 const ContractABI = tracking.abi;
 
 //---FETCHING SMART CONTRACT
@@ -20,7 +20,7 @@ export const TrackingProvider = ({ children }) => {
 
   const createShipment = async (items) => {
     console.log(items);
-    const { receiver, pickupTime, distance, price } = items;
+    const { receiver, pickupTime, price } = items;
 
     try {
       const web3Modal = new Web3Modal();
@@ -31,7 +31,6 @@ export const TrackingProvider = ({ children }) => {
       const createItem = await contract.createShipment(
         receiver,
         new Date(pickupTime).getTime(),
-        distance,
         ethers.utils.parseUnits(price, 18),
         {
           value: ethers.utils.parseUnits(price, 18),
@@ -41,7 +40,7 @@ export const TrackingProvider = ({ children }) => {
       console.log(createItem);
       location.reload();
     } catch (error) {
-      console.log("Some want wrong", error);
+      console.log("Some went wrong", error);
     }
   };
 
@@ -58,15 +57,13 @@ export const TrackingProvider = ({ children }) => {
         receiver: shipment.receiver,
         price: ethers.utils.formatEther(shipment.price.toString()),
         pickupTime: shipment.pickupTime.toNumber(),
-        deliveryTime: shipment.deliveryTime.toNumber(),
-        distance: shipment.distance.toNumber(),
         isPaid: shipment.isPaid,
         status: shipment.status,
       }));
 
       return allShipments;
     } catch (error) {
-      console.log("error want, getting shipment");
+      console.log("error getting shipment", error);
     }
   };
 
@@ -85,14 +82,14 @@ export const TrackingProvider = ({ children }) => {
       const shipmentsCount = await contract.getShipmentsCount(accounts[0]);
       return shipmentsCount.toNumber();
     } catch (error) {
-      console.log("error want, getting shipment");
+      console.log("error getting shipment count", error);
     }
   };
 
   const completeShipment = async (completeShip) => {
     console.log(completeShip);
 
-    const { recevier, index } = completeShip;
+    const { receiver, index } = completeShip;
     try {
       if (!window.ethereum) return "Install MetaMask";
 
@@ -107,7 +104,7 @@ export const TrackingProvider = ({ children }) => {
 
       const transaction = await contract.completeShipment(
         accounts[0],
-        recevier,
+        receiver,
         index,
         {
           gasLimit: 300000,
@@ -118,7 +115,7 @@ export const TrackingProvider = ({ children }) => {
       console.log(transaction);
       location.reload();
     } catch (error) {
-      console.log("wrong completeShipment", error);
+      console.log("error completing shipment", error);
     }
   };
 
@@ -138,25 +135,23 @@ export const TrackingProvider = ({ children }) => {
       const contract = fetchContract(provider);
       const shipment = await contract.getShipment(accounts[0], index * 1);
 
-      const SingleShiplent = {
+      const SingleShipment = {
         sender: shipment[0],
         receiver: shipment[1],
         pickupTime: shipment[2].toNumber(),
-        deliveryTime: shipment[3].toNumber(),
-        distance: shipment[4].toNumber(),
-        price: ethers.utils.formatEther(shipment[5].toString()),
-        status: shipment[6],
-        isPaid: shipment[7],
+        price: ethers.utils.formatEther(shipment[3].toString()),
+        status: shipment[4],
+        isPaid: shipment[5],
       };
 
-      return SingleShiplent;
+      return SingleShipment;
     } catch (error) {
-      console.log("Sorry no chipment");
+      console.log("error getting shipment", error);
     }
   };
 
   const startShipment = async (getProduct) => {
-    const { reveiver, index } = getProduct;
+    const { receiver, index } = getProduct;
 
     try {
       if (!window.ethereum) return "Install MetaMask";
@@ -172,7 +167,7 @@ export const TrackingProvider = ({ children }) => {
       const contract = fetchContract(signer);
       const shipment = await contract.startShipment(
         accounts[0],
-        reveiver,
+        receiver,
         index * 1,
         {
           gasLimit: 300000,
@@ -183,9 +178,10 @@ export const TrackingProvider = ({ children }) => {
       console.log(shipment);
       location.reload();
     } catch (error) {
-      console.log("Sorry no chipment", error);
+      console.log("error starting shipment", error);
     }
   };
+
   //---CHECK WALLET CONNECTED
   const checkIfWalletConnected = async () => {
     try {
@@ -205,7 +201,7 @@ export const TrackingProvider = ({ children }) => {
     }
   };
 
-  //---CONNET WALLET FUNCTION
+  //---CONNECT WALLET FUNCTION
   const connectWallet = async () => {
     try {
       if (!window.ethereum) return "Install MetaMask";
@@ -216,7 +212,7 @@ export const TrackingProvider = ({ children }) => {
 
       setCurrentUser(accounts[0]);
     } catch (error) {
-      return "Something want wrong";
+      return "Something went wrong";
     }
   };
 

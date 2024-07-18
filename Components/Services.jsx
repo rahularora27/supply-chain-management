@@ -8,7 +8,6 @@ export default function TeamComponent({
     { label: "Start Shipment", action: setStartModal },
     { label: "Complete Shipment", action: setCompleteModal },
     { label: "Shipment Details", action: setGetModel },
-    { label: "User Profile", action: setOpenProfile },
   ];
 
   const openModalBox = (action) => {
@@ -16,10 +15,9 @@ export default function TeamComponent({
   };
 
   return (
-    <section className="py-0 pb-14">
+    <section>
       <div className="max-w-screen-lg mx-auto px-4 md:px-8">
-        <div className="mt-12">
-          <ul className="grid gap-4 grid-cols-2 md:grid-cols-4">
+          <ul className="grid grid-cols-1 md:grid-cols-3 gap-2">
             {buttons.map((button, index) => (
               <li key={index}>
                 <button
@@ -32,7 +30,6 @@ export default function TeamComponent({
             ))}
           </ul>
         </div>
-      </div>
     </section>
   );
 }

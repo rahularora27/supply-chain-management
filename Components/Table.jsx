@@ -36,8 +36,7 @@ export default ({ setCreateShipmentModel, allShipmentsdata }) => {
             <tr>
               <th className="py-3 px-6">Sender</th>
               <th className="py-3 px-6">Receiver</th>
-              <th className="py-3 px-6">Pickup Date</th>
-              <th className="py-3 px-6">Distance</th>
+              <th className="py-3 px-6">Date</th>
               <th className="py-3 px-6">Price</th>
               <th className="py-3 px-6">Paid</th>
               <th className="py-3 px-6">Status</th>
@@ -47,16 +46,13 @@ export default ({ setCreateShipmentModel, allShipmentsdata }) => {
             {allShipmentsdata?.map((shipment, idx) => (
               <tr key={idx}>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {shipment.sender.slice(0, 15)}...
+                  {shipment.sender.slice(0, 25)}...
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {shipment.receiver.slice(0, 15)}...
+                  {shipment.receiver.slice(0, 25)}...
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {converTime(shipment.pickupTime)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {shipment.distance} Km
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {shipment.price}
