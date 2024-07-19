@@ -28,30 +28,34 @@ export default function Home() {
   const [startModal, setStartModal] = useState(false);
   const [completeModal, setCompleteModal] = useState(false);
   const [getModel, setGetModel] = useState(false);
-  const [allShipmentsdata, setallShipmentsdata] = useState();
+  const [allShipmentsdata, setAllShipmentsData] = useState([]);
 
   useEffect(() => {
-    const getCampaignsData = getAllShipment();
-
-    return async () => {
-      const allData = await getCampaignsData;
-      setallShipmentsdata(allData);
+    const fetchData = async () => {
+      try {
+        const allData = await getAllShipment();
+        setAllShipmentsData(allData);
+      } catch (error) {
+        console.error("Error fetching shipment data:", error);
+      }
     };
-  }, []);
+
+    fetchData();
+  }, [getAllShipment]);
 
   return (
     <>
-    <div className="flex justify-evenly mb-10">
-      <Services
-        setCompleteModal={setCompleteModal}
-        setGetModel={setGetModel}
-        setStartModal={setStartModal}
-      />
-      <Profile
-        currentUser={currentUser}
-        getShipmentsCount={getShipmentsCount}
-      />
-    </div>
+      <div className="flex flex-col items-center mb-10 gap-4">
+        <Services
+          setCompleteModal={setCompleteModal}
+          setGetModel={setGetModel}
+          setStartModal={setStartModal}
+        />
+        <Profile
+          currentUser={currentUser}
+          getShipmentsCount={getShipmentsCount}
+        />
+      </div>
       <Table
         setCreateShipmentModel={setCreateShipmentModel}
         allShipmentsdata={allShipmentsdata}

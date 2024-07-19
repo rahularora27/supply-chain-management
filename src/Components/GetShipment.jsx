@@ -79,12 +79,16 @@ export default function GetShipmentModal({ getModel, setGetModel, getShipment })
               <div className="text-left mt-4">
                 <p>Sender: {singleShipmentData.sender.slice(0, 25)}...</p>
                 <p>Receiver: {singleShipmentData.receiver.slice(0, 25)}...</p>
-                <p>Pickup Time: {convertTime(singleShipmentData.pickupTime)}</p>
+                <p>Date: {convertTime(singleShipmentData.pickupTime)}</p>
                 <p>Price: {singleShipmentData.price}</p>
-                <p>Status: {singleShipmentData.status}</p>
                 <p>
-                  Paid: {singleShipmentData.isPaid ? "Complete" : "Not Complete"}
+                  Payment: {singleShipmentData.isPaid ? "Completed" : "Pending"}
                 </p>
+                <p>Status: {singleShipmentData.status === 0
+                    ? "Pending"
+                    : singleShipmentData.status === 1
+                    ? "IN_TRANSIT"
+                    : "Delivered"}</p>
               </div>
             )}
           </div>

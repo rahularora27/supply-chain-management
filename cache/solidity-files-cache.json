@@ -35,6 +35,41 @@
       "artifacts": [
         "Tracking"
       ]
+    },
+    "E:\\ethSupplyChain\\contracts\\Tracking.sol": {
+      "lastModificationDate": 1721396446199,
+      "contentHash": "54de130deb1b7ffb10c1ff807c631c5b",
+      "sourceName": "contracts/Tracking.sol",
+      "solcConfig": {
+        "version": "0.8.18",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Tracking"
+      ]
     }
   }
 }

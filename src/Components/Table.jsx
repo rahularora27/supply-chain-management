@@ -31,17 +31,19 @@ export default ({ setCreateShipmentModel, allShipmentsdata }) => {
         <table className="w-full table-auto text-sm text-left">
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>
+              <th className="py-3 px-6">Shipment ID</th>
               <th className="py-3 px-6">Sender</th>
               <th className="py-3 px-6">Receiver</th>
               <th className="py-3 px-6">Date</th>
               <th className="py-3 px-6">Price</th>
-              <th className="py-3 px-6">Paid</th>
+              <th className="py-3 px-6">Payment</th>
               <th className="py-3 px-6">Status</th>
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
             {allShipmentsdata?.map((shipment, idx) => (
               <tr key={idx}>
+                <td className="px-6 py-4 whitespace-nowrap">{idx}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {shipment.sender.slice(0, 25)}...
                 </td>
@@ -55,7 +57,7 @@ export default ({ setCreateShipmentModel, allShipmentsdata }) => {
                   {shipment.price}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {shipment.isPaid ? " Completed" : "Not Complete"}
+                  {shipment.isPaid ? " Completed" : "Pending"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {shipment.status === 0
