@@ -19,10 +19,7 @@ export default ({ currentUser, getShipmentsCount }) => {
   }, [getShipmentsCount]);
 
   return (
-    <div className="flex items-center gap-2">
-      <span className="px-4 py-2 text-sm font-medium text-center text-black rounded-lg border-2">
-        Wallet Address: 0
-      </span>
+    <div className="flex items-center">
       <span className="px-4 py-2 text-sm font-medium text-center text-black rounded-lg border-2">
         Total Shipments: {count}
       </span>

@@ -3,7 +3,8 @@
 import { useEffect, useState, useContext } from "react";
 import { TrackingContext } from "../Context/TrackingContext";
 import { Nav1, Nav2, Nav3 } from "../Components/index";
-export default () => {
+
+const NavBar = () => {
   const [state, setState] = useState(false);
   const { currentUser, connectWallet } = useContext(TrackingContext);
 
@@ -24,7 +25,10 @@ export default () => {
     >
       <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-4 md:flex md:px-8">
         <div className="flex items-center justify-between py-5 md:block">
-          <a href="javascript:void(0)">
+          <a
+            href="#"
+            onClick={(e) => e.preventDefault()}
+          >
             <h1 className="text-4xl font-extrabold">EthSupplyChain</h1>
           </a>
           <div className="md:hidden">
@@ -61,3 +65,5 @@ export default () => {
     </nav>
   );
 };
+
+export default NavBar;
