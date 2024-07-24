@@ -77,19 +77,43 @@ export default function GetShipmentModal({ getModel, setGetModel, getShipment })
 
             {singleShipmentData && (
               <div className="text-left mt-4">
-                <p>Sender: {singleShipmentData.sender.slice(0, 25)}...</p>
-                <p>Receiver: {singleShipmentData.receiver.slice(0, 25)}...</p>
-                <p>Date: {convertTime(singleShipmentData.pickupTime)}</p>
-                <p>Price: {singleShipmentData.price}</p>
-                <p>
-                  Payment: {singleShipmentData.isPaid ? "Completed" : "Pending"}
-                </p>
-                <p>Status: {singleShipmentData.status === 0
-                    ? "Pending"
-                    : singleShipmentData.status === 1
-                    ? "IN_TRANSIT"
-                    : "Delivered"}</p>
+              <div className="overflow-hidden rounded-lg border border-gray-300">
+                <table className="min-w-full">
+                  <tbody>
+                    <tr>
+                      <td className="border-r border-b border-gray-300 p-2"><strong>Sender:</strong></td>
+                      <td className="border-b border-gray-300 p-2">{singleShipmentData.sender.slice(0, 25)}...</td>
+                    </tr>
+                    <tr>
+                      <td className="border-r border-b border-gray-300 p-2"><strong>Receiver:</strong></td>
+                      <td className="border-b border-gray-300 p-2">{singleShipmentData.receiver.slice(0, 25)}...</td>
+                    </tr>
+                    <tr>
+                      <td className="border-r border-b border-gray-300 p-2"><strong>Date:</strong></td>
+                      <td className="border-b border-gray-300 p-2">{convertTime(singleShipmentData.pickupTime)}</td>
+                    </tr>
+                    <tr>
+                      <td className="border-r border-b border-gray-300 p-2"><strong>Price:</strong></td>
+                      <td className="border-b border-gray-300 p-2">{singleShipmentData.price}</td>
+                    </tr>
+                    <tr>
+                      <td className="border-r border-b border-gray-300 p-2"><strong>Payment:</strong></td>
+                      <td className="border-b border-gray-300 p-2">{singleShipmentData.isPaid ? "Completed" : "Pending"}</td>
+                    </tr>
+                    <tr>
+                      <td className="border-r border-gray-300 p-2"><strong>Status:</strong></td>
+                      <td className="p-2">
+                        {singleShipmentData.status === 0
+                          ? "Pending"
+                          : singleShipmentData.status === 1
+                          ? "IN_TRANSIT"
+                          : "Delivered"}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
+            </div>
             )}
           </div>
         </div>
