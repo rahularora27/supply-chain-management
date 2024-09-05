@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useContext } from "react";
 import { TrackingContext } from "../Context/TrackingContext";
-import { Nav1, Nav2, Nav3 } from "../Components/index";
+import { FaBars, FaTimes, FaArrowRight } from "react-icons/fa";
 
 const NavBar = () => {
   const [state, setState] = useState(false);
@@ -36,7 +36,7 @@ const NavBar = () => {
               className="menu-btn text-gray-500 hover:text-gray-800"
               onClick={() => setState(!state)}
             >
-              {state ? <Nav1 /> : <Nav2 />}
+              {state ? <FaTimes /> : <FaBars />}
             </button>
           </div>
         </div>
@@ -56,7 +56,7 @@ const NavBar = () => {
                 className="flex items-center justify-center gap-x-1 py-2 px-4 text-white font-medium bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full md:inline-flex"
               >
                 Connect Wallet
-                <Nav3 />
+                <FaArrowRight />
               </button>
             )}
           </div>
