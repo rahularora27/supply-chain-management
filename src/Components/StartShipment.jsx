@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { Str1 } from "../Components/index";
+import { AiOutlineClose } from "react-icons/ai";
 
 export default ({ startModal, setStartModal, startShipment }) => {
   const [getProduct, setGetProduct] = useState({
@@ -26,7 +26,7 @@ export default ({ startModal, setStartModal, startShipment }) => {
               className="p-2 text-gray-400 rounded-md hover:bg-gray-100"
               onClick={() => setStartModal(false)}
             >
-              <Str1 />
+              <AiOutlineClose className="w-5 h-5 mx-auto" />
             </button>
           </div>
           <div className="max-w-sm mx-auto py-3 space-y-3 text-center">

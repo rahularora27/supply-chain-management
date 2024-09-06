@@ -4,6 +4,7 @@ import { useEffect, useState, useContext } from "react";
 import { TrackingContext } from "../Context/TrackingContext";
 import { FaBars, FaTimes, FaArrowRight } from "react-icons/fa";
 
+
 const NavBar = () => {
   const [state, setState] = useState(false);
   const { currentUser, connectWallet } = useContext(TrackingContext);
