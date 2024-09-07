@@ -1,4 +1,21 @@
+'use client';
+
+import { useEffect, useState } from "react";
+
 export default ({ setCreateShipmentModel, allShipmentsdata }) => {
+  const [currentAccount, setCurrentAccount] = useState(null);
+
+  useEffect(() => {
+    const getAccount = async () => {
+      if (window.ethereum) {
+        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        setCurrentAccount(accounts[0]);
+      }
+    };
+
+    getAccount();
+  }, []);
+
   const converTime = (time) => {
     const newTime = new Date(time);
     const dataTime = new Intl.DateTimeFormat("en-US", {
@@ -10,12 +27,17 @@ export default ({ setCreateShipmentModel, allShipmentsdata }) => {
     return dataTime;
   };
 
+  const filteredShipments = allShipmentsdata?.filter(
+    (shipment) =>
+      shipment.sender &&
+      currentAccount &&
+      shipment.sender.toLowerCase() === currentAccount.toLowerCase()
+  );
+
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8">
       <div className="items-center md:justify-between justify-center flex flex-col md:flex-row">
-          <h3 className="text-gray-800 font-bold text-2xl">
-            Shipment Tracking
-          </h3>
+        <h3 className="text-gray-800 font-bold text-2xl">Shipment Tracking</h3>
         <div className="mt-3 md:mt-0">
           <button
             onClick={() => setCreateShipmentModel(true)}
@@ -39,8 +61,8 @@ export default ({ setCreateShipmentModel, allShipmentsdata }) => {
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
-            {allShipmentsdata?.map((shipment, idx) => (
-              <tr key={idx}>
+            {filteredShipments?.map((shipment, idx) => (
+              <tr>
                 <td className="px-6 py-4 whitespace-nowrap">{idx}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {shipment.sender.slice(0, 25)}...
@@ -51,11 +73,9 @@ export default ({ setCreateShipmentModel, allShipmentsdata }) => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   {converTime(shipment.pickupTime)}
                 </td>
+                <td className="px-6 py-4 whitespace-nowrap">{shipment.price}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {shipment.price}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {shipment.isPaid ? " Completed" : "Pending"}
+                  {shipment.isPaid ? "Completed" : "Pending"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {shipment.status === 0

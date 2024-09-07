@@ -14,18 +14,8 @@ contract Tracking {
     }
 
     mapping(address => Shipment[]) public shipments;
+    Shipment[] public allShipments;
     uint256 public shipmentCount;
-
-    struct TypeShipment {
-        address sender;
-        address receiver;
-        uint256 pickupTime;
-        uint256 price;
-        ShipmentStatus status;
-        bool isPaid;
-    }
-
-    TypeShipment[] typeShipments;
 
     event ShipmentCreated(address indexed sender, address indexed receiver, uint256 pickupTime, uint256 price);
     event ShipmentInTransit(address indexed sender, address indexed receiver, uint256 pickupTime);
@@ -42,52 +32,34 @@ contract Tracking {
         Shipment memory shipment = Shipment(msg.sender, _receiver, _pickupTime, _price, ShipmentStatus.PENDING, false);
 
         shipments[msg.sender].push(shipment);
+        allShipments.push(shipment);
         shipmentCount++;
 
-        typeShipments.push(
-            TypeShipment(
-                msg.sender, 
-                _receiver, 
-                _pickupTime, 
-                _price, 
-                ShipmentStatus.PENDING, 
-                false
-            )
-        );
-        
         emit ShipmentCreated(msg.sender, _receiver, _pickupTime, _price);
     }
 
     function startShipment(address _sender, address _receiver, uint256 _index) public {
         Shipment storage shipment = shipments[_sender][_index];
-        TypeShipment storage typeShipment = typeShipments[_index];
-        
         require(shipment.receiver == _receiver, "Invalid receiver.");
         require(shipment.status == ShipmentStatus.PENDING, "Shipment already in transit.");
 
         shipment.status = ShipmentStatus.IN_TRANSIT;
-        typeShipment.status = ShipmentStatus.IN_TRANSIT;
 
         emit ShipmentInTransit(_sender, _receiver, shipment.pickupTime);
     }
 
     function completeShipment(address _sender, address _receiver, uint256 _index) public {
         Shipment storage shipment = shipments[_sender][_index];
-        TypeShipment storage typeShipment = typeShipments[_index];
-
         require(shipment.receiver == _receiver, "Invalid receiver.");
         require(shipment.status == ShipmentStatus.IN_TRANSIT, "Shipment not in transit.");
         require(!shipment.isPaid, "Shipment already paid.");
 
         shipment.status = ShipmentStatus.DELIVERED;
-        typeShipment.status = ShipmentStatus.DELIVERED;
 
         uint256 amount = shipment.price;
-
         payable(shipment.receiver).transfer(amount);
 
         shipment.isPaid = true;
-        typeShipment.isPaid = true;
 
         emit ShipmentDelivered(_sender, _receiver, block.timestamp);
         emit ShipmentPaid(_sender, _receiver, amount);
@@ -102,7 +74,7 @@ contract Tracking {
         return shipments[_sender].length;
     }
 
-    function getAllTransactions() public view returns (TypeShipment[] memory) {
-        return typeShipments;
+    function getAllTransactions() public view returns (Shipment[] memory) {
+        return allShipments;
     }
 }

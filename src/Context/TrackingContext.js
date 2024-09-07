@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 
 //INTERNAL IMPORT
 import tracking from "../Context/Tracking.json";
-const ContractAddress = "0xA451e0cc8730F7436c7796DA90D2A023552Db350";
+const ContractAddress = "0x20ed2bd3f502b340426de5E0c34ce06b11061741";
 const ContractABI = tracking.abi;
 
 //---FETCHING SMART CONTRACT
