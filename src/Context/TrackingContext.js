@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
+import { toast } from "react-hot-toast";
 
 //INTERNAL IMPORT
 import tracking from "../Context/Tracking.json";
@@ -40,9 +41,13 @@ export const TrackingProvider = ({ children }) => {
       );
       await createItem.wait();
       console.log(createItem);
-      location.reload();
+      toast.success("Shipment created successfully");
+      setTimeout(function() {
+        location.reload();
+      }, 3000);
     } catch (error) {
       console.log("Some went wrong", error);
+      toast.error("Something went wrong. Please try again");
     }
   };
 

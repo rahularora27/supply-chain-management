@@ -3,7 +3,7 @@ import "./globals.css";
 
 import { Footer, NavBar } from "../Components";
 import { TrackingProvider } from "../Context/TrackingContext";
-import { N } from "ethers";
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,6 +16,7 @@ export default function RootLayout({ children }) {
     <TrackingProvider>
       <html lang="en">
         <body className={inter.className}>
+          <Toaster />
           <NavBar />
           {children}
           <Footer />
