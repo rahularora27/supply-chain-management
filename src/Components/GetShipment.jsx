@@ -82,23 +82,23 @@ export default function GetShipmentModal({ getModel, setGetModel, getShipment })
                       <td className="border-r border-b border-gray-300 p-2"><strong>Date:</strong></td>
                       <td className="border-b border-gray-300 p-2">{convertTime(singleShipmentData.pickupTime)}</td>
                     </tr>
+                      <tr>
+                        <td className="border-r border-b border-gray-300 p-2"><strong>Price:</strong></td>
+                        <td className="border-b border-gray-300 p-2">{singleShipmentData.price}</td>
+                      </tr>
                     <tr>
-                      <td className="border-r border-b border-gray-300 p-2"><strong>Price:</strong></td>
-                      <td className="border-b border-gray-300 p-2">{singleShipmentData.price}</td>
-                    </tr>
-                    <tr>
-                      <td className="border-r border-b border-gray-300 p-2"><strong>Payment:</strong></td>
-                      <td className="border-b border-gray-300 p-2">{singleShipmentData.isPaid ? "Completed" : "Pending"}</td>
-                    </tr>
-                    <tr>
-                      <td className="border-r border-gray-300 p-2"><strong>Status:</strong></td>
-                      <td className="p-2">
+                      <td className="border-r border-b border-gray-300 p-2"><strong>Status:</strong></td>
+                      <td className="border-b border-gray-300 p-2">
                         {singleShipmentData.status === 0
                           ? "Pending"
                           : singleShipmentData.status === 1
                           ? "IN_TRANSIT"
                           : "Delivered"}
                       </td>
+                    </tr>
+                    <tr>
+                      <td className="border-r border-gray-300 p-2"><strong>Payment:</strong></td>
+                      <td className="p-2">{singleShipmentData.isPaid ? "Completed" : "Pending"}</td>
                     </tr>
                   </tbody>
                 </table>

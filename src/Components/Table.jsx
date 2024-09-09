@@ -1,6 +1,15 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../Components/ui/table";
 
 export default ({ setCreateShipmentModel, allShipmentsdata }) => {
   const [currentAccount, setCurrentAccount] = useState(null);
@@ -16,15 +25,15 @@ export default ({ setCreateShipmentModel, allShipmentsdata }) => {
     getAccount();
   }, []);
 
-  const converTime = (time) => {
+  const convertTime = (time) => {
     const newTime = new Date(time);
-    const dataTime = new Intl.DateTimeFormat("en-US", {
+    const dateTime = new Intl.DateTimeFormat("en-US", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
     }).format(newTime);
 
-    return dataTime;
+    return dateTime;
   };
 
   const filteredShipments = allShipmentsdata?.filter(
@@ -47,47 +56,38 @@ export default ({ setCreateShipmentModel, allShipmentsdata }) => {
           </button>
         </div>
       </div>
-      <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
-        <table className="w-full table-auto text-sm text-center">
-          <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-            <tr>
-              <th className="py-3 px-6">Shipment ID</th>
-              <th className="py-3 px-6">Sender</th>
-              <th className="py-3 px-6">Receiver</th>
-              <th className="py-3 px-6">Date</th>
-              <th className="py-3 px-6">Price</th>
-              <th className="py-3 px-6">Payment</th>
-              <th className="py-3 px-6">Status</th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-600 divide-y">
+
+      <div className="mt-12">
+        <Table className="w-full text-center text-sm">
+          <TableCaption>A list of all the shipments.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-center">Shipment ID</TableHead>
+              <TableHead className="text-center">Sender</TableHead>
+              <TableHead className="text-center">Receiver</TableHead>
+              <TableHead className="text-center">Date</TableHead>
+              <TableHead className="text-center">Price</TableHead>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
             {filteredShipments?.map((shipment, idx) => (
-              <tr>
-                <td className="px-6 py-4 whitespace-nowrap">{idx}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
+              <TableRow className="text-center" key={idx}>
+                <TableCell className="text-center">{idx}</TableCell>
+                <TableCell className="text-center">
                   {shipment.sender.slice(0, 25)}...
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                </TableCell>
+                <TableCell className="text-center">
                   {shipment.receiver.slice(0, 25)}...
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {converTime(shipment.pickupTime)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{shipment.price}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {shipment.isPaid ? "Completed" : "Pending"}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {shipment.status === 0
-                    ? "Pending"
-                    : shipment.status === 1
-                    ? "IN_TRANSIT"
-                    : "Delivered"}
-                </td>
-              </tr>
+                </TableCell>
+                <TableCell className="text-center">
+                  {convertTime(shipment.pickupTime)}
+                </TableCell>
+                <TableCell className="text-center">{shipment.price}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ contract Tracking {
 
     event ShipmentCreated(address indexed sender, address indexed receiver, uint256 pickupTime, uint256 price);
     event ShipmentInTransit(address indexed sender, address indexed receiver, uint256 pickupTime);
-    event ShipmentDelivered(address indexed sender, address indexed receiver, uint256 deliveryTime);
+    event ShipmentDelivered(address indexed sender, address indexed receiver);
     event ShipmentPaid(address indexed sender, address indexed receiver, uint256 amount);
 
     constructor() {
@@ -61,7 +61,7 @@ contract Tracking {
 
         shipment.isPaid = true;
 
-        emit ShipmentDelivered(_sender, _receiver, block.timestamp);
+        emit ShipmentDelivered(_sender, _receiver);
         emit ShipmentPaid(_sender, _receiver, amount);
     }
 
