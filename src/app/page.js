@@ -4,7 +4,6 @@ import React, { useState, useEffect, useContext } from "react";
 
 import {
   Table,
-  Form,
   Services,
   Profile,
   CompleteShipment,
@@ -24,7 +23,6 @@ export default function Home() {
     getShipmentsCount,
   } = useContext(TrackingContext);
 
-  const [createShipmentModel, setCreateShipmentModel] = useState(false);
   const [startModal, setStartModal] = useState(false);
   const [completeModal, setCompleteModal] = useState(false);
   const [getModel, setGetModel] = useState(false);
@@ -57,13 +55,8 @@ export default function Home() {
         />
       </div>
       <Table
-        setCreateShipmentModel={setCreateShipmentModel}
-        allShipmentsdata={allShipmentsdata}
-      />
-      <Form
-        createShipmentModel={createShipmentModel}
         createShipment={createShipment}
-        setCreateShipmentModel={setCreateShipmentModel}
+        allShipmentsdata={allShipmentsdata}
       />
       <CompleteShipment
         completeModal={completeModal}

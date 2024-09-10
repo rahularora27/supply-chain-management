@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
+import { Badge } from "@/components/ui/badge"
 
 export default ({ currentUser, getShipmentsCount }) => {
   const [count, setCount] = useState("0");
@@ -20,9 +21,9 @@ export default ({ currentUser, getShipmentsCount }) => {
 
   return (
     <div className="flex items-center">
-      <span className="px-4 py-2 text-sm font-medium text-center text-black rounded-lg border-2">
+      <Badge className="px-4 py-2">
         Total Shipments: {count}
-      </span>
+      </Badge>
     </div>
   );
 };

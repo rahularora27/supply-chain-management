@@ -1,6 +1,18 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+
 import {
   Table,
   TableBody,
@@ -9,10 +21,23 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../Components/ui/table";
+} from "@/components/ui/table";
 
-export default ({ setCreateShipmentModel, allShipmentsdata }) => {
+export default ({createShipment, allShipmentsdata }) => {
   const [currentAccount, setCurrentAccount] = useState(null);
+  const [shipment, setShipment] = useState({
+    receiver: "",
+    pickupTime: "",
+    price: "",
+  });
+
+  const createItem  = async () => {
+    try {
+      await createShipment(shipment);
+    } catch (error) {
+      console.log("Error creating item");
+    }
+  };
 
   useEffect(() => {
     const getAccount = async () => {
@@ -45,15 +70,67 @@ export default ({ setCreateShipmentModel, allShipmentsdata }) => {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-      <div className="items-center md:justify-between justify-center flex flex-col md:flex-row">
-        <h3 className="text-gray-800 font-bold text-2xl">Shipment Tracking</h3>
+      <div className="flex flex-col md:flex-row items-center md:justify-between">
+        <h3 className="text-gray-800 font-bold text-3xl">Shipment Tracking</h3>
         <div className="mt-3 md:mt-0">
-          <button
-            onClick={() => setCreateShipmentModel(true)}
-            className="inline-block px-4 py-2 text-white duration-150 font-medium bg-gray-800 hover:bg-gray-700 active:bg-gray-900 text-sm rounded-lg md:inline-flex"
-          >
-            Add Tracking
-          </button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline">Add a Shipment</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Add Tracking for a Shipment</DialogTitle>
+                <DialogDescription>
+                  Fill in the details below and click 'Add' to submit a new shipment.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4 items-center">
+                <div>
+                  <Input
+                    type="text"
+                    placeholder="Receiver's Address"
+                    onChange={(e) =>
+                      setShipment({
+                        ...shipment,
+                        receiver: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Input 
+                    type="date"
+                    placeholder="Date"
+                    onChange={(e) =>
+                      setShipment({
+                        ...shipment,
+                        pickupTime: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="text"
+                    placeholder="Price"
+                    onChange={(e) =>
+                      setShipment({
+                        ...shipment,
+                        price: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button
+                  onClick={() => createItem()}
+                >
+                  Add
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
