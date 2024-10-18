@@ -60,7 +60,7 @@ const NavBar = () => {
                   </Button>
                 </HoverCardTrigger>
                 <HoverCardContent>
-                  The React Framework – created and maintained by @vercel.
+                  Account Address
                 </HoverCardContent>
               </HoverCard>
             ) : (
