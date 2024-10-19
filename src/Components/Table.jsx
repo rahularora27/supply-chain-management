@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { Button } from "../Components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,8 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../Components/ui/dialog";
-import { Input } from "../Components/ui/input";
+} from "./ui/dialog";
+import { Input } from "./ui/input";
 
 import {
   Table,
@@ -21,7 +21,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../Components/ui/table";
+} from "./ui/table";
 
 export default ({createShipment, allShipmentsdata }) => {
   const [currentAccount, setCurrentAccount] = useState(null);
