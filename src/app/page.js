@@ -9,7 +9,7 @@ import {
   CompleteShipment,
   GetShipment,
   StartShipment,
-} from "../Components/index";
+} from "../components/index";
 import { TrackingContext } from "../Context/TrackingContext";
 
 export default function Home() {
