@@ -22,7 +22,7 @@ export default ({ currentUser, getShipmentsCount }) => {
   return (
     <div className="flex items-center">
       <Badge className="px-4 py-2">
-        Total Shipments: {count}
+        Total Outgoing Shipments: {count}
       </Badge>
     </div>
   );

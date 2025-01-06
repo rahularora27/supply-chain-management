@@ -23,7 +23,7 @@ import {
   TableRow,
 } from "./ui/table";
 
-export default ({createShipment, allShipmentsdata }) => {
+export default ({createShipment, allShipmentsdata, receiverShipmentsData }) => {
   const [currentAccount, setCurrentAccount] = useState(null);
   const [shipment, setShipment] = useState({
     receiver: "",
@@ -60,13 +60,6 @@ export default ({createShipment, allShipmentsdata }) => {
 
     return dateTime;
   };
-
-  const filteredShipments = allShipmentsdata?.filter(
-    (shipment) =>
-      shipment.sender &&
-      currentAccount &&
-      shipment.sender.toLowerCase() === currentAccount.toLowerCase()
-  );
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8">
@@ -134,9 +127,10 @@ export default ({createShipment, allShipmentsdata }) => {
         </div>
       </div>
 
+      {/* Sent Shipments Table */}
       <div className="mt-12">
+        <h4 className="text-gray-800 font-semibold text-xl mb-4">Outgoing</h4>
         <Table className="w-full text-center text-sm">
-          <TableCaption>A list of all the shipments.</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="text-center">Shipment ID</TableHead>
@@ -148,7 +142,41 @@ export default ({createShipment, allShipmentsdata }) => {
           </TableHeader>
 
           <TableBody>
-            {filteredShipments?.map((shipment, idx) => (
+            {allShipmentsdata?.map((shipment, idx) => (
+              <TableRow className="text-center" key={idx}>
+                <TableCell className="text-center">{idx}</TableCell>
+                <TableCell className="text-center">
+                  {shipment.sender.slice(0, 25)}...
+                </TableCell>
+                <TableCell className="text-center">
+                  {shipment.receiver.slice(0, 25)}...
+                </TableCell>
+                <TableCell className="text-center">
+                  {convertTime(shipment.pickupTime)}
+                </TableCell>
+                <TableCell className="text-center">{shipment.price}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Received Shipments Table */}
+      <div className="mt-12">
+        <h4 className="text-gray-800 font-semibold text-xl mb-4">Incoming</h4>
+        <Table className="w-full text-center text-sm">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-center">Shipment ID</TableHead>
+              <TableHead className="text-center">Sender</TableHead>
+              <TableHead className="text-center">Receiver</TableHead>
+              <TableHead className="text-center">Date</TableHead>
+              <TableHead className="text-center">Price</TableHead>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
+            {receiverShipmentsData?.map((shipment, idx) => (
               <TableRow className="text-center" key={idx}>
                 <TableCell className="text-center">{idx}</TableCell>
                 <TableCell className="text-center">

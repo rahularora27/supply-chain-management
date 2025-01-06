@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 
 //INTERNAL IMPORT
 import tracking from "../Context/Tracking.json";
-const ContractAddress = "0x20ed2bd3f502b340426de5E0c34ce06b11061741";
+const ContractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const ContractABI = tracking.abi;
 
 //---FETCHING SMART CONTRACT
@@ -53,22 +53,67 @@ export const TrackingProvider = ({ children }) => {
 
   const getAllShipment = async () => {
     try {
+      if (!window.ethereum) return "Install MetaMask";
+  
+      const accounts = await window.ethereum.request({
+        method: "eth_accounts",
+      });
+      
       const web3Modal = new Web3Modal();
       const connection = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(connection);
       const contract = fetchContract(provider);
-
+  
+      // Get all shipments
       const shipments = await contract.getAllTransactions();
-      const allShipments = shipments.map((shipment) => ({
-        sender: shipment.sender,
-        receiver: shipment.receiver,
-        price: ethers.utils.formatEther(shipment.price.toString()),
-        pickupTime: shipment.pickupTime.toNumber()
-      }));
-
-      return allShipments;
+      // Filter and map shipments where current user is the sender
+      const senderShipments = shipments
+        .filter((shipment) => shipment.sender.toLowerCase() === accounts[0].toLowerCase())
+        .map((shipment) => ({
+          sender: shipment.sender,
+          receiver: shipment.receiver,
+          price: ethers.utils.formatEther(shipment.price.toString()),
+          pickupTime: shipment.pickupTime.toNumber(),
+          status: shipment.status,
+          isPaid: shipment.isPaid
+        }));
+  
+      return senderShipments;
     } catch (error) {
       console.log("error getting shipment", error);
+    }
+  };
+
+  const getAllReceiverShipment = async () => {
+    try {
+      if (!window.ethereum) return "Install MetaMask";
+  
+      const accounts = await window.ethereum.request({
+        method: "eth_accounts",
+      });
+      
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const contract = fetchContract(provider);
+  
+      // Get all shipments
+      const shipments = await contract.getAllTransactions();
+      // Filter and map shipments where current user is the receiver
+      const receiverShipments = shipments
+        .filter((shipment) => shipment.receiver.toLowerCase() === accounts[0].toLowerCase())
+        .map((shipment) => ({
+          sender: shipment.sender,
+          receiver: shipment.receiver,
+          price: ethers.utils.formatEther(shipment.price.toString()),
+          pickupTime: shipment.pickupTime.toNumber(),
+          status: shipment.status,
+          isPaid: shipment.isPaid
+        }));
+  
+      return receiverShipments;
+    } catch (error) {
+      console.log("error getting received shipments", error);
     }
   };
 
@@ -231,6 +276,7 @@ export const TrackingProvider = ({ children }) => {
         connectWallet,
         createShipment,
         getAllShipment,
+        getAllReceiverShipment,
         completeShipment,
         getShipment,
         startShipment,

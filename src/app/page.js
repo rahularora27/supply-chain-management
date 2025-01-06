@@ -17,6 +17,7 @@ export default function Home() {
     currentUser,
     createShipment,
     getAllShipment,
+    getAllReceiverShipment,  // Add this
     completeShipment,
     getShipment,
     startShipment,
@@ -27,19 +28,26 @@ export default function Home() {
   const [completeModal, setCompleteModal] = useState(false);
   const [getModel, setGetModel] = useState(false);
   const [allShipmentsdata, setAllShipmentsData] = useState([]);
+  const [receiverShipmentsData, setReceiverShipmentsData] = useState([]); // Add this
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const allData = await getAllShipment();
-        setAllShipmentsData(allData);
+        // Fetch both sender and receiver shipments
+        const [senderData, receiverData] = await Promise.all([
+          getAllShipment(),
+          getAllReceiverShipment()
+        ]);
+        
+        setAllShipmentsData(senderData);
+        setReceiverShipmentsData(receiverData);
       } catch (error) {
         console.error("Error fetching shipment data:", error);
       }
     };
 
     fetchData();
-  }, [getAllShipment]);
+  }, [getAllShipment, getAllReceiverShipment]);
 
   return (
     <>
@@ -57,6 +65,7 @@ export default function Home() {
       <Table
         createShipment={createShipment}
         allShipmentsdata={allShipmentsdata}
+        receiverShipmentsData={receiverShipmentsData}  // Add this
       />
       <CompleteShipment
         completeModal={completeModal}
